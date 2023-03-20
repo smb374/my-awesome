@@ -1,0 +1,21 @@
+{
+  "lspconfig": {
+    "lua_ls": {
+      "Lua.runtime.version": "LuaJIT",
+      "Lua.diagnostics.enable": true,
+      "Lua.diagnostics.globals": [
+        "awesome",
+        "client",
+        "mouse",
+        "mousegrabber",
+        "root",
+        "screen",
+        "tag"
+      ],
+      "Lua.workspace.library": [
+        "/usr/share/awesome/lib",
+        "~/.local/share/awesome-emmylua/lua"
+      ]
+    }
+  }
+}
