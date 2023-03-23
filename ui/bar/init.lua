@@ -2,7 +2,6 @@ local awful = require("awful")
 
 local container = require("wibox.container")
 local layout = require("wibox.layout")
-local widget = require("wibox.widget")
 local wibox = require("wibox")
 
 local helpers = require("helpers")
@@ -71,7 +70,7 @@ awful.screen.connect_for_each_screen(function(s)
           spacing = dpi(5),
           layout = layout.fixed.vertical,
         }),
-        section(clock),
+        clock,
         spacing = dpi(5),
         layout = layout.fixed.vertical,
       },

@@ -12,7 +12,7 @@ local get_cpu = function()
 end
 
 gears.timer({
-  timeout = 0.5,
+  timeout = 0.6,
   call_now = true,
   autostart = true,
   callback = function()

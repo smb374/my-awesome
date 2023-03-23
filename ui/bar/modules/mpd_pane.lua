@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local container = require("wibox.container")
 local layout = require("wibox.layout")
 local widget = require("wibox.widget")
@@ -30,19 +31,19 @@ local mpd_art = wibox.widget({
 })
 
 local play_butn = wibox.widget({
-  markup = helpers.colorize_text(play_icon, palette.surface0),
+  markup = helpers.colorize_text(play_icon, palette.text),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
 
 local prev_butn = wibox.widget({
-  markup = helpers.colorize_text("󰅃", palette.surface0),
+  markup = helpers.colorize_text("󰅃", palette.text),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
 
 local next_butn = wibox.widget({
-  markup = helpers.colorize_text("󰅀", palette.surface0),
+  markup = helpers.colorize_text("󰅀", palette.text),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
@@ -50,8 +51,8 @@ local next_butn = wibox.widget({
 local progress_bar = wibox.widget({
   max_value = 100.0,
   value = 0.0,
-  color = palette.blue,
-  background_color = palette.text,
+  color = gears.color.change_opacity(palette.blue, 0.75),
+  background_color = palette.base,
   widget = widget.progressbar,
 })
 
@@ -71,7 +72,7 @@ local mpd = wibox.widget({
     {
       {
         progress_bar,
-        forced_height = dpi(64),
+        forced_height = dpi(60),
         forced_width = dpi(32),
         direction = "east",
         widget = container.rotate,
@@ -120,9 +121,9 @@ signal_base:connect_signal("signal::mpd::meta", function(_, album, artist, title
     title_cache = title
   end
   if is_playing then
-    play_butn.markup = helpers.colorize_text(pause_icon, palette.surface0)
+    play_butn.markup = helpers.colorize_text(pause_icon, palette.text)
   else
-    play_butn.markup = helpers.colorize_text(play_icon, palette.surface0)
+    play_butn.markup = helpers.colorize_text(play_icon, palette.text)
   end
 end)
 
