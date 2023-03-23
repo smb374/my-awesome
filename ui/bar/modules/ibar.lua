@@ -21,7 +21,7 @@ function _M.ibar_custom(children, color)
             value = 0.0,
             color = color,
             background_color = palette.surface0,
-            shape = helpers.rrect(5),
+            shape = helpers.rrect(dpi(5)),
             widget = widget.progressbar,
             id = "bar_role",
           },

@@ -4,14 +4,17 @@ local layout = require("wibox.layout")
 local widget = require("wibox.widget")
 local wibox = require("wibox")
 
-local ibar = require("ui.bar.modules.ibar")
 local helpers = require("helpers")
 
 local dpi = G.dpi
 local palette = G.palette
 local signal_base = G.signal_base
 
-local tooltip = awful.tooltip()
+local tooltip = awful.tooltip({
+  bg = palette.surface0,
+  fg = palette.text,
+  shape = helpers.rrect(dpi(5)),
+})
 
 local album_cache = "Unknown"
 local artist_cache = "Unknown"
@@ -22,34 +25,35 @@ local pause_icon = "󰏤"
 
 local mpd_art = wibox.widget({
   image = "/home/poyehchen/placeholder.png",
-  clip_shape = helpers.rrect(5),
+  clip_shape = helpers.prrect(dpi(5), true, true, false, false),
   widget = widget.imagebox,
 })
 
 local play_butn = wibox.widget({
-  markup = play_icon,
+  markup = helpers.colorize_text(play_icon, palette.surface0),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
 
 local prev_butn = wibox.widget({
-  markup = "󰅃",
+  markup = helpers.colorize_text("󰅃", palette.surface0),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
 
 local next_butn = wibox.widget({
-  markup = "󰅀",
+  markup = helpers.colorize_text("󰅀", palette.surface0),
   font = "Symbols Nerd Font Mono 12",
   widget = widget.textbox,
 })
 
-local pane = ibar.ibar_custom({
-  prev_butn,
-  play_butn,
-  next_butn,
-  layout = layout.fixed.vertical,
-}, palette.sky)
+local progress_bar = wibox.widget({
+  max_value = 100.0,
+  value = 0.0,
+  color = palette.blue,
+  background_color = palette.text,
+  widget = widget.progressbar,
+})
 
 local mpd = wibox.widget({
   {
@@ -65,12 +69,32 @@ local mpd = wibox.widget({
       widget = container.constraint,
     },
     {
-      pane,
-      margins = {
-        top = dpi(5),
-        bottom = dpi(5),
+      {
+        progress_bar,
+        forced_height = dpi(64),
+        forced_width = dpi(32),
+        direction = "east",
+        widget = container.rotate,
       },
-      widget = container.margin,
+      {
+        {
+          {
+            prev_butn,
+            play_butn,
+            next_butn,
+            layout = layout.fixed.vertical,
+          },
+          margins = {
+            top = dpi(5),
+            bottom = dpi(5),
+          },
+          widget = container.margin,
+        },
+        halign = "center",
+        valign = "center",
+        widget = container.place,
+      },
+      layout = layout.stack,
     },
     layout = layout.fixed.vertical,
   },
@@ -96,14 +120,14 @@ signal_base:connect_signal("signal::mpd::meta", function(_, album, artist, title
     title_cache = title
   end
   if is_playing then
-    play_butn.markup = helpers.colorize_text(pause_icon, palette.text)
+    play_butn.markup = helpers.colorize_text(pause_icon, palette.surface0)
   else
-    play_butn.markup = helpers.colorize_text(play_icon, palette.text)
+    play_butn.markup = helpers.colorize_text(play_icon, palette.surface0)
   end
 end)
 
 signal_base:connect_signal("signal::mpd::progress", function(_, progress)
-  pane.get_bar().value = progress
+  progress_bar.value = progress
 end)
 
 mpd_art:connect_signal("mouse::enter", function()
