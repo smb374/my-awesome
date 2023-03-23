@@ -54,7 +54,7 @@ awful.rules.rules = {
         "riotclientux.exe",
         "leagueclientux.exe",
         "Devtools", -- Firefox devtools
-        "alacritty_float",
+        "float_term",
       },
       class = {
         "Gpick",

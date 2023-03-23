@@ -1,0 +1,18 @@
+#!/bin/sh
+
+while getopts 'mv' opt; do
+    case "$opt" in
+    m)
+        muted=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d' ' -f3 | tr -d '[]')
+        if [ "$muted" = "MUTED" ]; then
+            echo true
+        else
+            echo false
+        fi
+        ;;
+    v)
+        wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d' ' -f2 | xargs -I %% echo '%% * 100' | bc -l
+        ;;
+    *) ;;
+    esac
+done

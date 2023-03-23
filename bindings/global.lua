@@ -131,7 +131,7 @@ local tag_keys = gears.table.join(
   end, { description = "set floating layout", group = "tag" })
 )
 
-local ntags = 9
+local ntags = 8
 for i = 1, ntags do
   tag_keys = gears.table.join(
     tag_keys,

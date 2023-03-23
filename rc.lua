@@ -32,7 +32,7 @@ end
 awful.screen.connect_for_each_screen(function(s)
   set_wallpaper(s)
   local l = awful.layout.suit
-  local tagnames = beautiful.tagnames or { "1", "2", "3", "4", "5", "6", "7", "8", "9" }
+  local tagnames = beautiful.tagnames or { "1", "2", "3", "4", "5", "6", "7", "8" }
   awful.tag(tagnames, s, l.tile)
 end)
 
@@ -43,3 +43,7 @@ client.connect_signal("mouse::enter", function(c)
 end)
 
 require("rules")
+
+require("ui.bar")
+
+require("signals")

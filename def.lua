@@ -1,4 +1,5 @@
 local xresources = require("beautiful.xresources")
+local gears = require("gears")
 
 G.dpi = xresources.apply_dpi
 G.palette = {
@@ -29,3 +30,6 @@ G.palette = {
   mantle = "#181825",
   crust = "#11111b",
 }
+
+G.script_root = os.getenv("HOME") .. "/.config/awesome/scripts/"
+G.signal_base = gears.object()
