@@ -35,7 +35,7 @@ local theme = {}
 
 theme.font = "Fantasque Sans Mono 12"
 theme.bg_dark = palette.base
-theme.bg_normal = palette.overlay0
+theme.bg_normal = palette.base
 theme.bg_focus = palette.lavender
 theme.bg_urgent = palette.red
 theme.bg_minimize = palette.base
@@ -61,5 +61,7 @@ theme.taglist_bg_urgent = palette.red
 theme.taglist_disable_icon = true
 
 theme.titlebars_enabled = false
+
+theme.icon_theme = "/usr/share/icons/Papirus-Dark"
 
 return theme

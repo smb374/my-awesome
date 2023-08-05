@@ -1,4 +1,5 @@
 local awful = require("awful")
+local gears = require("gears")
 local beautiful = require("beautiful")
 
 -- Determines how floating clients should be placed
@@ -19,6 +20,15 @@ local floating_client_placement = function(c)
     honor_workarea = true,
     margins = beautiful.useless_gap * 2,
   })
+end
+
+local centered_client_placement = function(c)
+  return gears.timer.delayed_call(function()
+    awful.placement.centered(c, {
+      honor_padding = true,
+      honor_workarea = true,
+    })
+  end)
 end
 
 local universal_rules = {
@@ -43,6 +53,10 @@ local universal_rules = {
   },
 }
 
+local s = awful.screen.focused()
+local screen_width = s.geometry.width
+local screen_height = s.geometry.height
+
 awful.rules.rules = {
   universal_rules,
   {
@@ -64,6 +78,9 @@ awful.rules.rules = {
         "fst",
         "Nvidia-settings",
         "alacritty_float",
+        "float_term",
+        "imv",
+        "MEGAsync",
       },
       name = {
         "Event Tester", -- xev
@@ -75,6 +92,28 @@ awful.rules.rules = {
     },
     properties = {
       floating = true,
+    },
+  },
+  {
+    rule_any = {
+      type = { "dialog" },
+      class = { "Steam", "discord", "music", "markdown_input", "scratchpad", "lightcord" },
+      instance = { "music", "markdown_input", "scratchpad" },
+      role = { "GtkFileChooserDialog", "conversation" },
+    },
+    properties = {
+      placement = centered_client_placement,
+    },
+  },
+  {
+    rule_any = {
+      class = { "music" },
+      instance = { "music" },
+    },
+    properties = {
+      floating = true,
+      width = screen_width * 0.5,
+      height = screen_height * 0.4,
     },
   },
 }

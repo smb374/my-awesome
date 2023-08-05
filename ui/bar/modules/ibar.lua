@@ -30,7 +30,7 @@ function _M.ibar_custom(children, color)
           direction = "east",
           widget = container.rotate,
         },
-        spacing = dpi(1),
+        spacing = dpi(2),
         layout = layout.fixed.horizontal,
       },
       halign = "center",
@@ -53,7 +53,7 @@ function _M.ibar_simple(icon, color)
   local ibar = _M.ibar_custom({
     markup = helpers.colorize_text(icon, color),
     fg = color,
-    font = "Symbols Nerd Font Mono 12",
+    font = "Symbols Nerd Font Mono 10",
     widget = widget.textbox,
     id = "icon_role",
   }, color)

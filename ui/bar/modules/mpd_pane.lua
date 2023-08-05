@@ -32,19 +32,19 @@ local mpd_art = wibox.widget({
 
 local play_butn = wibox.widget({
   markup = helpers.colorize_text(play_icon, palette.text),
-  font = "Symbols Nerd Font Mono 12",
+  font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
 
 local prev_butn = wibox.widget({
   markup = helpers.colorize_text("󰅃", palette.text),
-  font = "Symbols Nerd Font Mono 12",
+  font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
 
 local next_butn = wibox.widget({
   markup = helpers.colorize_text("󰅀", palette.text),
-  font = "Symbols Nerd Font Mono 12",
+  font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
 
@@ -59,7 +59,6 @@ local progress_bar = wibox.widget({
 local mpd = wibox.widget({
   {
     {
-
       {
         mpd_art,
         halign = "center",
@@ -83,6 +82,7 @@ local mpd = wibox.widget({
             prev_butn,
             play_butn,
             next_butn,
+            spacing = dpi(8),
             layout = layout.fixed.vertical,
           },
           margins = {
@@ -137,19 +137,19 @@ end)
 
 play_butn:connect_signal("button::press", function(_, _, _, button)
   if button == 1 then
-    awful.spawn([[mpc toggle]])
+    awful.spawn.easy_async([[mpc toggle]], function(_) end)
   end
 end)
 
 prev_butn:connect_signal("button::press", function(_, _, _, button)
   if button == 1 then
-    awful.spawn([[mpc prev]])
+    awful.spawn.easy_async([[mpc prev]], function(_) end)
   end
 end)
 
 next_butn:connect_signal("button::press", function(_, _, _, button)
   if button == 1 then
-    awful.spawn([[mpc next]])
+    awful.spawn.easy_async([[mpc next]], function(_) end)
   end
 end)
 

@@ -9,6 +9,24 @@ local alt = "Mod1"
 local ctrl = "Control"
 local shft = "Shift"
 
+local app_keys = gears.table.join(
+  awful.key({ supr, alt }, "m", function()
+    helpers.scratchpad({ instance = "music" }, user.music_client)
+  end, { description = "music client", group = "music" }),
+  awful.key({}, "Print", function()
+    awful.spawn.easy_async_with_shell(
+      [[maim -u -b 3 -m 5 "$HOME/screenshots/$(date +'%Y.%m.%d-%H.%M.%S').screenshot.png"]],
+      function(_) end
+    )
+  end, { description = "Screenshot", group = "screenshot" }),
+  awful.key({ alt }, "Print", function()
+    awful.spawn.easy_async_with_shell(
+      [[maim -u -b 3 -m 5 -i $(xdotool getactivewindow) | xclip -selection clipboard -t image/png]],
+      function(_) end
+    )
+  end, { description = "Screenshot current window to clipboard.", group = "screenshot" })
+)
+
 local client_keys = gears.table.join(
   -- Focus client by direction
   awful.key({ supr }, "j", function()
@@ -167,15 +185,19 @@ local launcher_keys = gears.table.join(
     awful.spawn(user.floating_terminal, { floating = true })
   end, { description = "spawn floating terminal", group = "launcher" }),
   awful.key({ supr }, "d", function()
-    awful.spawn.with_shell("rofi -matching fuzzy -show combi")
+    awful.spawn.with_shell("$HOME/.config/rofi/scripts/launcher_t1")
   end, { description = "rofi launcher", group = "launcher" })
 )
 
 local wm_keys = gears.table.join(
   awful.key({ supr, shft }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
-  awful.key({ supr, shft }, "x", awesome.quit, { description = "quit awesome", group = "awesome" })
+  awful.key({ supr, shft }, "x", awesome.quit, { description = "quit awesome", group = "awesome" }),
+  awful.key({ supr }, "=", function()
+    local s = awful.screen.focused()
+    s.traybox.visible = not s.traybox.visible
+  end, { description = "toggle tray", group = "awesome" })
 )
 
-local keys = gears.table.join(client_keys, layout_keys, tag_keys, launcher_keys, wm_keys)
+local keys = gears.table.join(app_keys, client_keys, layout_keys, tag_keys, launcher_keys, wm_keys)
 
 root.keys(keys)

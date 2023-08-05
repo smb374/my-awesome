@@ -6,10 +6,10 @@ local album_old = ""
 
 local get_mpd_meta = function()
   awful.spawn.easy_async_with_shell(
-    [[mpc -f '%album%;%artist%;%title%' | sed -n '1p' | tr -d '\n' | xargs -0 -I @@ mpc status '@@;%state%']],
+    [[mpc status '%state%;%totaltime%' | tr -d '\n' | xargs -0 -I @@ mpc -f '%album%;%artist%;%title%;@@']],
     function(stdout)
       local is_playing = false
-      local album, artist, title, is_playing_str = stdout:match("([%S ]*);([%S ]*);([%S ]*);(%S+)")
+      local album, artist, title, is_playing_str, tot_time = stdout:match("([%S ]*);([%S ]*);([%S ]*);(%S+);(%S+)")
       if is_playing_str == "playing" then
         is_playing = true
       end
@@ -18,8 +18,15 @@ local get_mpd_meta = function()
         signal_base:emit_signal("signal::mpd::get_cover")
       end
       signal_base:emit_signal("signal::mpd::meta", album, artist, title, is_playing)
+      signal_base:emit_signal("signal::mpd::length", tot_time)
     end
   )
+end
+
+local get_mpd_list = function()
+  awful.spawn.easy_async([[mpc status '##%songpos%/%length%']], function(stdout)
+    signal_base:emit_signal("signal::mpd::list", stdout:match("(%S+)"))
+  end)
 end
 
 local get_mpd_option = function()
@@ -45,10 +52,11 @@ local get_cover = function()
 end
 
 local get_progress = function()
-  awful.spawn.easy_async([[mpc status '%percenttime%']], function(stdout)
-    local prog_str = stdout:match(" (%S+)%%")
+  awful.spawn.easy_async([[mpc status '%percenttime%;%currenttime%']], function(stdout)
+    local prog_str, ctime = stdout:match("%s*(%S+)%%;(%S+)")
     local prog = tonumber(prog_str) or 0
     signal_base:emit_signal("signal::mpd::progress", prog)
+    signal_base:emit_signal("signal::mpd::time", ctime)
   end)
 end
 
@@ -58,6 +66,7 @@ end)
 
 get_mpd_meta()
 get_mpd_option()
+get_mpd_list()
 
 gears.timer({
   timeout = 1.0,
@@ -74,8 +83,9 @@ awful.spawn.easy_async_with_shell(
     awful.spawn.with_line_callback([[mpc idleloop]], {
       stdout = function(_)
         get_mpd_meta()
-        get_progress()
         get_mpd_option()
+        get_mpd_list()
+        get_progress()
       end,
     })
   end
