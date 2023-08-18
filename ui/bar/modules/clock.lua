@@ -13,8 +13,8 @@ local palette = G.palette
 local bar = wibox.widget({
   max_value = 59,
   value = 0,
-  color = gears.color.change_opacity(palette.teal, 0.6),
-  background_color = palette.base,
+  color = palette.lavender,
+  background_color = gears.color.change_opacity(palette.lavender, 0.6),
   widget = widget.progressbar,
 })
 
@@ -38,12 +38,12 @@ local clock = wibox.widget({
       {
         {
           {
-            format = "<b>%H</b>",
+            format = helpers.colorize_text("<b>%H</b>", palette.base),
             refresh = 30,
             widget = widget.textclock,
           },
           {
-            format = "<b>%M</b>",
+            format = helpers.colorize_text("<b>%M</b>", palette.base),
             refresh = 1,
             widget = widget.textclock,
           },

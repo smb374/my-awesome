@@ -1,0 +1,2 @@
+#!/bin/sh
+rofi -config "$HOME/.config/awesome/rofi/launcher.rasi" -show "$1"

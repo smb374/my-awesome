@@ -40,29 +40,29 @@ return function(s)
       widget = container.background,
       forced_width = dpi(10),
       forced_height = dpi(10),
-      create_callback = function(self, tag)
-        self.taganim = animation:new({
-          duration = 0.12,
-          easing = animation.easing.linear,
-          update = function(_, pos)
-            self:get_children_by_id("background_role")[1].forced_height = pos
-          end,
-        })
-        self.update = function()
-          if tag.selected then
-            self.taganim:set(30)
-          elseif #tag:clients() > 0 then
-            self.taganim:set(10)
-          else
-            self.taganim:set(10)
-          end
-        end
-
-        self.update()
-      end,
-      update_callback = function(self)
-        self.update()
-      end,
+      -- create_callback = function(self, tag)
+      --   self.taganim = animation:new({
+      --     duration = 0.12,
+      --     easing = animation.easing.linear,
+      --     update = function(_, pos)
+      --       self:get_children_by_id("background_role")[1].forced_height = pos
+      --     end,
+      --   })
+      --   self.update = function()
+      --     if tag.selected then
+      --       self.taganim:set(30)
+      --     elseif #tag:clients() > 0 then
+      --       self.taganim:set(10)
+      --     else
+      --       self.taganim:set(10)
+      --     end
+      --   end
+      --
+      --   self.update()
+      -- end,
+      -- update_callback = function(self)
+      --   self.update()
+      -- end,
     },
   })
   return taglist

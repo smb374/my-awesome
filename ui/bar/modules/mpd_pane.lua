@@ -31,19 +31,19 @@ local mpd_art = wibox.widget({
 })
 
 local play_butn = wibox.widget({
-  markup = helpers.colorize_text(play_icon, palette.text),
+  markup = helpers.colorize_text(play_icon, palette.base),
   font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
 
 local prev_butn = wibox.widget({
-  markup = helpers.colorize_text("󰅃", palette.text),
+  markup = helpers.colorize_text("󰅃", palette.base),
   font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
 
 local next_butn = wibox.widget({
-  markup = helpers.colorize_text("󰅀", palette.text),
+  markup = helpers.colorize_text("󰅀", palette.base),
   font = "Symbols Nerd Font Mono 8",
   widget = widget.textbox,
 })
@@ -51,8 +51,8 @@ local next_butn = wibox.widget({
 local progress_bar = wibox.widget({
   max_value = 100.0,
   value = 0.0,
-  color = gears.color.change_opacity(palette.blue, 0.75),
-  background_color = palette.base,
+  color = palette.lavender,
+  background_color = gears.color.change_opacity(palette.lavender, 0.6),
   widget = widget.progressbar,
 })
 
@@ -121,9 +121,9 @@ signal_base:connect_signal("signal::mpd::meta", function(_, album, artist, title
     title_cache = title
   end
   if is_playing then
-    play_butn.markup = helpers.colorize_text(pause_icon, palette.text)
+    play_butn.markup = helpers.colorize_text(pause_icon, palette.base)
   else
-    play_butn.markup = helpers.colorize_text(play_icon, palette.text)
+    play_butn.markup = helpers.colorize_text(play_icon, palette.base)
   end
 end)
 

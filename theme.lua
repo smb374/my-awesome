@@ -33,7 +33,7 @@ local palette = {
 
 local theme = {}
 
-theme.font = "Fantasque Sans Mono 12"
+theme.font = "JetBrains Mono 10"
 theme.bg_dark = palette.base
 theme.bg_normal = palette.base
 theme.bg_focus = palette.lavender

@@ -78,7 +78,7 @@ local client_keys = gears.table.join(
     end
   end, { description = "jump to urgent client", group = "client" }),
 
-  awful.key({ supr, ctrl }, "space", function()
+  awful.key({ supr, shft }, "f", function()
     local layout_is_floating = (awful.layout.get(mouse.screen) == awful.layout.suit.floating)
     if not layout_is_floating then
       awful.client.floating.toggle()
@@ -122,7 +122,7 @@ local tag_keys = gears.table.join(
   -- Max layout
   -- Single tap: Set max layout
   -- Double tap: Also disable floating for ALL visible clients in the tag
-  awful.key({ supr }, "w", function()
+  awful.key({ supr }, "m", function()
     awful.layout.set(awful.layout.suit.max)
     helpers.single_double_tap(nil, function()
       local clients = awful.screen.focused().clients
@@ -134,7 +134,7 @@ local tag_keys = gears.table.join(
   -- Tiling
   -- Single tap: Set tiled layout
   -- Double tap: Also disable floating for ALL visible clients in the tag
-  awful.key({ supr }, "s", function()
+  awful.key({ supr }, "t", function()
     awful.layout.set(awful.layout.suit.tile)
     helpers.single_double_tap(nil, function()
       local clients = awful.screen.focused().clients
@@ -144,7 +144,7 @@ local tag_keys = gears.table.join(
     end)
   end, { description = "set tiled layout", group = "tag" }),
   -- Set floating layout
-  awful.key({ supr, shft }, "s", function()
+  awful.key({ supr, ctrl }, "f", function()
     awful.layout.set(awful.layout.suit.floating)
   end, { description = "set floating layout", group = "tag" })
 )
@@ -184,14 +184,23 @@ local launcher_keys = gears.table.join(
   awful.key({ supr, shft }, "Return", function()
     awful.spawn(user.floating_terminal, { floating = true })
   end, { description = "spawn floating terminal", group = "launcher" }),
+  awful.key({ supr, shft }, "x", function()
+    awful.spawn.with_shell("$HOME/.config/awesome/scripts/rofi-powermenu")
+  end, { description = "rofi powermenu", group = "launcher" }),
   awful.key({ supr }, "d", function()
-    awful.spawn.with_shell("$HOME/.config/rofi/scripts/launcher_t1")
-  end, { description = "rofi launcher", group = "launcher" })
+    awful.spawn.with_shell("$HOME/.config/awesome/scripts/rofi-launcher drun")
+  end, { description = "rofi drun", group = "launcher" }),
+  awful.key({ supr }, "r", function()
+    awful.spawn.with_shell("$HOME/.config/awesome/scripts/rofi-launcher run")
+  end, { description = "rofi run", group = "launcher" }),
+  awful.key({ supr }, "w", function()
+    awful.spawn.with_shell("$HOME/.config/awesome/scripts/rofi-launcher window")
+  end, { description = "rori window", group = "launcher" })
 )
 
 local wm_keys = gears.table.join(
   awful.key({ supr, shft }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
-  awful.key({ supr, shft }, "x", awesome.quit, { description = "quit awesome", group = "awesome" }),
+  -- awful.key({ supr, shft }, "x", awesome.quit, { description = "powermenu", group = "awesome" }),
   awful.key({ supr }, "=", function()
     local s = awful.screen.focused()
     s.traybox.visible = not s.traybox.visible

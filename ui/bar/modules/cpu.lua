@@ -5,7 +5,7 @@ local signal_base = G.signal_base
 
 local color = palette.red
 
-local icon = "󰍛"
+local icon = "󰘚"
 
 local cpu_ibar = ibar.ibar_simple(icon, color)
 
